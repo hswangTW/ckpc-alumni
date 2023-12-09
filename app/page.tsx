@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 
-import AddItemModal from './components/add-item-modal';
+import AddItemModal from '@/app/ui/add-item-modal';
 
 export default function Home() {
 

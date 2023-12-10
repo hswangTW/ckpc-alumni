@@ -41,7 +41,7 @@ export default function AddItemModal() {
           <div className='flex flex-col py-3'>
             <form onSubmit={handleSubmit}>
               <div className='flex flex-col'>
-                <label htmlFor='item-id'>請輸入發現的道具兌換碼</label>
+                <label htmlFor='item-id'>請輸入發現的道具代碼</label>
                 <input
                   type='text'
                   id='item-id'

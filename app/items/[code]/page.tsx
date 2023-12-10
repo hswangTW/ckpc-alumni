@@ -17,7 +17,7 @@ type StaticParams = {
 
 export const dynamicParams = false;
 
-export async function fetchItemById(id: string) {
+async function fetchItemById(id: string) {
   try {
     const data = await sql<ItemTable>`
       SELECT *
@@ -32,7 +32,7 @@ export async function fetchItemById(id: string) {
   }
 }
 
-export async function fetchItemByCode(code: string) {
+async function fetchItemByCode(code: string) {
   try {
     const data = await sql<ItemTable>`
       SELECT *

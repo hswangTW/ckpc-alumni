@@ -69,7 +69,7 @@ export default async function Page({ params }: { params: StaticParams }) {
         height={500}
         alt={`Item: ${code}`}
       />
-      <Link href='/' className='flex w-[10rem] justify-center bg-blue-500 rounded-lg px-6 py-3 transition-colors hover:bg-blue-400 duration-200'>回到首頁</Link>
+      <Link href='/ckpc31' className='flex w-[10rem] justify-center bg-blue-500 rounded-lg px-6 py-3 transition-colors hover:bg-blue-400 duration-200'>回到首頁</Link>
     </div>
   );
 }

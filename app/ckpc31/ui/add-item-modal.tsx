@@ -19,13 +19,13 @@ export default function AddItemModal() {
 
   const handleClose = () => {
     dialogRef.current?.close();
-    router.replace('/')
+    router.replace('/ckpc31')
   }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
-    router.push("/items/" + formData.get('item-id'));
+    router.push("/ckpc31/items/" + formData.get('item-id'));
   }
 
   const dialog: JSX.Element | null = addingItem === 'y'
@@ -41,7 +41,7 @@ export default function AddItemModal() {
           <div className='flex flex-col py-3'>
             <form onSubmit={handleSubmit}>
               <div className='flex flex-col'>
-                <label htmlFor='item-id'>請輸入發現的道具兌換碼</label>
+                <label htmlFor='item-id'>請輸入發現的道具代碼</label>
                 <input
                   type='text'
                   id='item-id'

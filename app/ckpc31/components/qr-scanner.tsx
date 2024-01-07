@@ -35,9 +35,13 @@ export default function QrScanner( props: QrScannerProps ) {
 
   const scannerRef = useRef<Html5Qrcode | undefined>(undefined);
 
-  async function stopScanner(scanner: Html5Qrcode) {
+  async function stopScanner(scanner?: Html5Qrcode) {
     const delayTime = 200; // ms
     const maxRetries = 50; // 10 seconds
+
+    if (!scanner) {
+      return;
+    }
 
     for (let i = 0; i < maxRetries; ++i) {
       try {
@@ -51,8 +55,9 @@ export default function QrScanner( props: QrScannerProps ) {
   }
 
   async function createScanner() {
-    if (!!scannerRef.current) {
-      await stopScanner(scannerRef.current);
+    while (!!scannerRef.current) {
+      console.log('Waiting for the old scanner to be stopped...');
+      await delay(200);
     }
     scannerRef.current = new Html5Qrcode(regionId);
     scannerRef.current.start({ facingMode: 'environment' }, scannerConfig, props.onSuccess, props.onError);
@@ -60,7 +65,12 @@ export default function QrScanner( props: QrScannerProps ) {
 
   useEffect(() => {
     createScanner();
-  }, [props]);
+
+    return () => {
+      stopScanner(scannerRef.current);
+      scannerRef.current = undefined;
+    };
+  }, []);
 
   return (
     <div

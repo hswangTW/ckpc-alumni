@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 
-import AddItemModal from '@/app/ckpc31/ui/add-item-modal';
+import AddItemModal from './components/add-item-modal';
 
 export default function Home() {
 

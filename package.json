@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "add-item": "node -r dotenv/config scripts/add-item-to-database.mjs"
+    "add-item": "node -r dotenv/config scripts/add-item-to-database.mjs",
+    "add-items": "node -r dotenv/config scripts/add-items-with-json.mjs scripts/items.json"
   },
   "dependencies": {
     "@vercel/postgres": "^0.5.1",

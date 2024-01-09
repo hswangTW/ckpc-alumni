@@ -3,6 +3,7 @@ import path from 'path';
 import Image from 'next/image';
 import Link from 'next/link';
 import { sql } from '@vercel/postgres';
+import DownloadButton from '../../components/download-button';
 
 type ItemTable = {
   id: string,
@@ -45,7 +46,7 @@ export default async function Page({ params }: { params: StaticParams }) {
   const { title, description } = await fetchItemById(id);
 
   return (
-    <div>
+    <div className='flex flex-col gap-2'>
       <p className='text-xl'>{title}</p>
       <Image
         src={`${itemsDirUrl}/${id}.png`}
@@ -54,7 +55,19 @@ export default async function Page({ params }: { params: StaticParams }) {
         alt={`Item: ${id}`}
       />
       <p>{description}</p>
-      <Link href='/ckpc31' className='flex w-[10rem] justify-center bg-blue-500 rounded-lg px-6 py-3 transition-colors hover:bg-blue-400 duration-200'>回到首頁</Link>
+      <div className='flex flex-row gap-2'>
+        <DownloadButton
+          text='下載圖檔'
+          className='flex w-[10rem] justify-center bg-blue-500 rounded-lg px-6 py-3 transition-colors hover:bg-blue-400 duration-200'
+          itemId={id}
+        />
+        <Link
+          className='flex w-[10rem] justify-center bg-blue-500 rounded-lg px-6 py-3 transition-colors hover:bg-blue-400 duration-200'
+          href='/ckpc31'
+        >
+          回到首頁
+        </Link>
+      </div>
     </div>
   );
 }

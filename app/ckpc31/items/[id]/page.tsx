@@ -6,22 +6,23 @@ import { sql } from '@vercel/postgres';
 
 type ItemTable = {
   id: string,
-  code: string,
   title: string,
-  image_url: string,
+  description: string,
 };
 
 type StaticParams = {
-  code: string,
+  id: string,
 };
 
 export const dynamicParams = false;
+
+const itemsDirUrl = '/images/ckpc31_items';
 
 async function fetchItemById(id: string) {
   try {
     const data = await sql<ItemTable>`
       SELECT *
-      FROM items
+      FROM ckpc31_items
       WHERE id = ${id};
     `;
 
@@ -32,43 +33,27 @@ async function fetchItemById(id: string) {
   }
 }
 
-async function fetchItemByCode(code: string) {
-  try {
-    const data = await sql<ItemTable>`
-      SELECT *
-      FROM items
-      WHERE code = ${code};
-    `;
-
-    return data.rows[0] as ItemTable;
-  } catch (error) {
-    console.error(`Failed to fetch item with code \"${code}\": ${error}`);
-    throw new Error('Failed to fetch item.');
-  }
-}
-
 export async function generateStaticParams() {
-  const itemsDirectory = path.join(process.cwd(), 'public/images/items');
+  const itemsDirectory = `${process.cwd()}/public${itemsDirUrl}`;
   const filenames = fs.readdirSync(itemsDirectory);
   const itemIds = filenames.map((filename) => (filename.replace(/\.[^./]+$/, '')));
-
-  const items = await Promise.all(itemIds.map(async (id) => fetchItemById(id)));
-  return items as StaticParams[];
+  return itemIds.map((id) => ({ id })) as StaticParams[];
 }
 
 export default async function Page({ params }: { params: StaticParams }) {
-  const { code } = params;
-  const { title, image_url } = await fetchItemByCode(code);
+  const { id } = params;
+  const { title, description } = await fetchItemById(id);
 
   return (
     <div>
-      <p>{title}</p>
+      <p className='text-xl'>{title}</p>
       <Image
-        src={image_url}
+        src={`${itemsDirUrl}/${id}.png`}
         width={500}
         height={500}
-        alt={`Item: ${code}`}
+        alt={`Item: ${id}`}
       />
+      <p>{description}</p>
       <Link href='/ckpc31' className='flex w-[10rem] justify-center bg-blue-500 rounded-lg px-6 py-3 transition-colors hover:bg-blue-400 duration-200'>回到首頁</Link>
     </div>
   );

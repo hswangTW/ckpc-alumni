@@ -58,11 +58,11 @@ export default async function Page({ params }: { params: StaticParams }) {
       <div className='flex flex-row gap-2'>
         <DownloadButton
           text='下載圖檔'
-          className='flex w-[10rem] justify-center bg-blue-500 rounded-lg px-6 py-3 transition-colors hover:bg-blue-400 duration-200'
+          className='flex w-[10rem] justify-center bg-ckpc-blue-light rounded-lg px-6 py-3 transition-colors hover:bg-ckpc-blue-verylight duration-100'
           itemId={id}
         />
         <Link
-          className='flex w-[10rem] justify-center bg-blue-500 rounded-lg px-6 py-3 transition-colors hover:bg-blue-400 duration-200'
+          className='flex w-[10rem] justify-center bg-ckpc-blue-light rounded-lg px-6 py-3 transition-colors hover:bg-ckpc-blue-verylight duration-100'
           href='/ckpc31'
         >
           回到首頁

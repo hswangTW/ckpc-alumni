@@ -4,7 +4,7 @@ import '@/app/globals.css'
 
 import Link from 'next/link'
 import { getServerSession } from 'next-auth'
-import { authOptions } from '../../api/auth/[...nextauth]/route'
+import { authOptions } from '@/lib/auth'
 import UserInfo from '../components/user-info'
 import NavBar from '../components/nav-bar'
 import AddItemModal from '../components/add-item-modal'

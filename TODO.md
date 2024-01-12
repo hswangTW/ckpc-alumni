@@ -2,7 +2,7 @@
 
 ## To-do
 
-- Add inventory system
+- Add loading screen for inventory
 - Allow users to submit items
 - Show the story
 - Polish the UI
@@ -15,3 +15,4 @@
 - Finish the item page.
   - Add download button in item page.
 - Add authentication feature
+- Add inventory system

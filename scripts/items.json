@@ -6,5 +6,13 @@
     "academic_score": 2,
     "social_score": -1,
     "admin_score": 1
+  },
+  {
+    "id": "no_alcohol_no_life",
+    "title": "不醉不會",
+    "description": "下鄉時與友社縱情飲酒，被外流至抖音，校方開始對日後舉辦活動百般刁難。因為難以舉辦活動，大家開始念書與舉辦更多社課。",
+    "academic_score": 2,
+    "social_score": -2,
+    "admin_score": -1
   }
 ]

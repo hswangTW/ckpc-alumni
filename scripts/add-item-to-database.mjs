@@ -1,17 +1,15 @@
 import { sql } from '@vercel/postgres';
-import { error } from 'console';
 import fs from 'fs';
 import path from 'path';
 import { exit } from 'process';
 import readline from 'readline';
-import { v5 as uuidv5 } from 'uuid';
 
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout
 });
 
-const namespace = 'c0ec9dea-7da0-4c12-895c-722dcbfccdb8';
+const tableName = 'ckpc31_items';
 const rootDir = process.cwd();
 
 const getInput = (prompt) => (new Promise(resolve => {
@@ -42,13 +40,15 @@ async function main() {
   const extension = filepath.split('.').pop();
 
   // Ask basic information
-  const code = await getInput('What\'s the code for this item?\n> ');
+  const id = await getInput('What\'s the id for this item?\n> ');
   const title = await getInput('What\'s the title of this item?\n> ');
+  const description = await getInput('Write the description for this item:\n> ');
+  const academic_score = await getInput('What\'s the academic score for this item?\n> ');
+  const social_score = await getInput('What\'s the social score for this item?\n> ');
+  const admin_score = await getInput('What\'s the administrative score for this item?\n> ');
 
-  // Generate the ID and copy the file
-  const id = uuidv5(filepath, namespace);
-  const url = `/images/items/${id}.${extension}`;
-  const newpath = `${rootDir}/public${url}`;
+  // Copy the file
+  const newpath = `${rootDir}/public/images/ckpc31_items/${id}.${extension}`;
 
   try {
     fs.copyFileSync(filepath, newpath);
@@ -57,22 +57,32 @@ async function main() {
     exit(1);
   }
 
+  console.log(`\nAdding row to the table \"${tableName}\".\n  id: ${id}\n  title: ${title}\n  description: ${description}`);
+  console.log(`  scores: acedamic ${academic_score}, social ${social_score}, admin ${admin_score}`);
+  const ans = await getInput('\nIs all the information correct? (y/n)\n> ');
+  if (ans.toLowerCase() !== 'y' && ans.toLowerCase() !== 'yes') {
+    console.log(`No row has been added to ${tableName}.`);
+    exit(0);
+  }
+
   // SQL
   await sql`
-    CREATE TABLE IF NOT EXISTS items (
-      id UUID NOT NULL PRIMARY KEY,
-      code VARCHAR(20) NOT NULL,
+    CREATE TABLE IF NOT EXISTS ckpc31_items (
+      id VARCHAR(20) NOT NULL PRIMARY KEY,
       title TEXT NOT NULL,
-      image_url TEXT NOT NULL
+      description TEXT NOT NULL,
+      academic_score INT NOT NULL,
+      social_score INT NOT NULL,
+      admin_score INT NOT NULL
     );
   `;
   await sql`
-    INSERT INTO items (id, code, title, image_url)
-    VALUES (${id}, ${code}, ${title}, ${url})
+    INSERT INTO ckpc31_items (id, title, description, academic_score, social_score, admin_score)
+    VALUES (${id}, ${title}, ${description}, ${academic_score}, ${social_score}, ${admin_score})
     ON CONFLICT (id) DO NOTHING;
   `;
 
-  console.log(`Added row to the database.\n  id: ${id}\n  code: ${code}\n  title: ${title}\n  image_url: ${url}`);
+  console.log('\nRow added.');
 }
 
 await main();

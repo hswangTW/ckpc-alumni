@@ -1,13 +1,16 @@
 "use client"
 
 import { useRouter, useSearchParams } from 'next/navigation'
-import React, { useRef, useEffect, FormEvent } from 'react'
+import React, { useState, useRef, useEffect, FormEvent } from 'react'
+import QrScanner from './qr-scanner';
+import { Html5QrcodeResult } from 'html5-qrcode';
 
 export default function AddItemModal() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const dialogRef = useRef<null | HTMLDialogElement>(null);
   const addingItem = searchParams.get('addingItem');
+  const [decodedQrcode, setDecodedQrcode] = useState<string>('');
 
   useEffect(() => {
     if (addingItem === 'y') {
@@ -19,13 +22,18 @@ export default function AddItemModal() {
 
   const handleClose = () => {
     dialogRef.current?.close();
-    router.replace('/')
+    router.replace('/ckpc31')
   }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
-    router.push("/items/" + formData.get('item-id'));
+    router.push("/ckpc31/items/" + formData.get('item-id'));
+  }
+
+  const handleQrSuccess = (decodedText: string, result: Html5QrcodeResult) => {
+    setDecodedQrcode(decodedText);
+    router.push(`/ckpc31/items/${decodedText}`);
   }
 
   const dialog: JSX.Element | null = addingItem === 'y'
@@ -38,16 +46,25 @@ export default function AddItemModal() {
               x
             </button>
           </div>
+          <QrScanner
+            fps={10}
+            disableFlip={false}
+            onSuccess={handleQrSuccess}
+          />
+          {
+            decodedQrcode ?
+              <p className='text-xs'>已掃描代碼: {decodedQrcode}，載入中請稍候</p> :
+              <p>請掃描 QR code 或手動輸入道具代碼</p>
+          }
           <div className='flex flex-col py-3'>
             <form onSubmit={handleSubmit}>
-              <div className='flex flex-col'>
-                <label htmlFor='item-id'>請輸入發現的道具代碼</label>
+              <div className='flex flex-row'>
                 <input
                   type='text'
                   id='item-id'
                   name='item-id'
                 />
-                <button type='submit'>送出</button>
+                <button type='submit' className='min-w-fit'>送出</button>
               </div>
             </form>
           </div>

@@ -41,8 +41,11 @@ export const authOptions = {
           } as CkpcUser;
         } else {
           const age = Number(credentials.age);
-          if (Number.isInteger(age) && age >= 1 && age <= 31) {
-            // If the age is valid, create a new user and log the user in
+          const name = credentials.name;
+          const isValid = name && Number.isInteger(age) && age >= 1 && age <= 31;
+
+          if (isValid) {
+            // Create a new user and log the user in
             await sql<UserTable>`
               INSERT INTO users (id, age, name, admin)
               VALUES (${id}, ${age}, ${credentials.name}, false)

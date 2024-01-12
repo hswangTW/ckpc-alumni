@@ -1,13 +1,15 @@
 "use client"
 
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams, usePathname } from 'next/navigation'
 import React, { useState, useRef, useEffect, FormEvent } from 'react'
 import QrScanner from './qr-scanner';
 import { Html5QrcodeResult } from 'html5-qrcode';
 
 export default function AddItemModal() {
   const router = useRouter();
+  const pathname = usePathname();
   const searchParams = useSearchParams();
+
   const dialogRef = useRef<null | HTMLDialogElement>(null);
   const addingItem = searchParams.get('addingItem');
   const [decodedQrcode, setDecodedQrcode] = useState<string>('');
@@ -20,20 +22,31 @@ export default function AddItemModal() {
     }
   }, [addingItem]);
 
-  const handleClose = () => {
-    dialogRef.current?.close();
-    router.replace('/ckpc31')
+  async function addItem(itemId: string) {
+    const respose = await fetch(`/api/ckpc31/add-item?item_id=${itemId}`,
+      { method: 'POST' }
+    );
+    if (!respose.ok) {
+      alert(`新增歷史碎片失敗: ${respose.status} ${respose.statusText} (${await respose.text()})`);
+      return;
+    }
+    router.push(`/ckpc31/items/${itemId}`);
   }
 
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  const handleClose = () => {
+    dialogRef.current?.close();
+    router.replace(pathname);
+  }
+
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
-    router.push("/ckpc31/items/" + formData.get('item-id'));
+    addItem(formData.get('item-id') as string);
   }
 
   const handleQrSuccess = (decodedText: string, result: Html5QrcodeResult) => {
     setDecodedQrcode(decodedText);
-    router.push(`/ckpc31/items/${decodedText}`);
+    addItem(decodedText);
   }
 
   const dialog: JSX.Element | null = addingItem === 'y'

@@ -33,7 +33,7 @@ async function main() {
   // SQL
   await sql`
     CREATE TABLE IF NOT EXISTS ckpc31_items (
-      id VARCHAR(20) NOT NULL PRIMARY KEY,
+      id TEXT NOT NULL PRIMARY KEY,
       title TEXT NOT NULL,
       description TEXT NOT NULL,
       academic_score INT NOT NULL,

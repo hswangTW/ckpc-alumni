@@ -17,7 +17,7 @@ type StaticParams = {
 
 export const dynamicParams = false;
 
-const itemsDirUrl = '/images/ckpc31_items';
+const itemsDirUrl = '/images/ckpc31/items';
 
 async function fetchItemById(id: string) {
   try {
@@ -48,25 +48,19 @@ export default async function Page({ params }: { params: StaticParams }) {
   return (
     <div className='flex flex-col gap-2'>
       <p className='text-xl'>{title}</p>
-      <Image
-        src={`${itemsDirUrl}/${id}.png`}
-        width={500}
-        height={500}
-        alt={`Item: ${id}`}
-      />
-      <p>{description}</p>
+        <Image
+          src={`${itemsDirUrl}/${id}.png`}
+          width={500}
+          height={500}
+          alt={`Item: ${id}`}
+          />
+        <p>{description}</p>
       <div className='flex flex-row gap-2'>
-        <DownloadButton
+                <DownloadButton
           text='下載圖檔'
           className='flex w-[10rem] justify-center bg-ckpc-blue-light rounded-lg px-6 py-3 transition-colors hover:bg-ckpc-blue-verylight duration-100'
           itemId={id}
         />
-        <Link
-          className='flex w-[10rem] justify-center bg-ckpc-blue-light rounded-lg px-6 py-3 transition-colors hover:bg-ckpc-blue-verylight duration-100'
-          href='/ckpc31'
-        >
-          回到首頁
-        </Link>
       </div>
     </div>
   );

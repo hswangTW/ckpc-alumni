@@ -18,10 +18,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="zh-Hant-TW" className='w-full h-full'>
-      <body className={inter.className}>{children}</body>
-      <footer className='flex justify-center items-center'>
-        <p className='text-xs'>UIcons by <Link className='text-sky-600' href="https://www.flaticon.com/uicons">Flaticon</Link></p>
-      </footer>
+      <body className={inter.className}>
+        {children}
+        <footer className='flex justify-center items-center'>
+          <p className='text-xs'>UIcons by <Link className='text-sky-600' href="https://www.flaticon.com/uicons">Flaticon</Link></p>
+        </footer>
+      </body>
     </html>
   )
 }

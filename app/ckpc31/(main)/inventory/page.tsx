@@ -4,10 +4,13 @@ import { sql } from "@vercel/postgres"
 import Link from 'next/link';
 import { unstable_noStore as noStore } from 'next/cache';
 
+import AddItemModal from '@/app/ckpc31/components/add-item-modal';
+import SubmitItemModal from '@/app/ckpc31/components/submit-item-modal';
+
 function ItemCard({ id, title }: { id: string, title: string }) {
   return (
     <Link
-      className='flex flex-col bg-ckpc-buff-light rounded-lg px-6 py-3 transition-colors hover:bg-ckpc-buff-verylight duration-100'
+      className='flex flex-col bg-ckpc-buff-light rounded-lg px-6 py-3 transition-colors hover:bg-white duration-100'
       href={`/ckpc31/items/${id}`}
     >
       <p className=''>{title}</p>
@@ -26,23 +29,65 @@ export default async function Home() {
   }
 
   const data = await sql`
-    SELECT id, title FROM ckpc31_items
-    WHERE id IN (
-      SELECT item_id FROM ckpc31_inventory
-      WHERE owner_id = ${session.user.id}
-    );
-  `;
+    SELECT ckpc31_inventory.item_id AS id,
+           ckpc31_inventory.submitted,
+           ckpc31_items.title
+    FROM ckpc31_inventory JOIN ckpc31_items
+    ON
+      ckpc31_inventory.item_id = ckpc31_items.id AND
+      ckpc31_inventory.owner_id = ${session.user.id};
+  ` as { rows: { id: string, submitted: boolean, title: string }[] };
+
+  const submittedItems = data.rows.filter((row) => row.submitted);
+  const unsubmittedItems = data.rows.filter((row) => !row.submitted);
       
   return (
-    <div className='flex flex-col gap-2'>
-      <p className='text-ckpc-brown'>目前已收集到的歷史碎片:</p>
-      <ul className='flex flex-col gap-1'>
-        {data.rows.map((row) => (
-          <li key={row.id}>
-            <ItemCard id={row.id} title={row.title} />
-          </li>
-        ))}
-      </ul>
-    </div>
+    <>
+      <AddItemModal />
+      <SubmitItemModal items={unsubmittedItems} />
+      <div className='flex flex-col gap-2'>
+        <p className='text-ckpc-brown text-xs pb-2'>若歷史碎片更新不及時，請重新整理頁面</p>
+        <p className='text-ckpc-brown text-lg'>尚未提交的歷史碎片:</p>
+        <ul className='flex flex-col gap-1'>
+          {unsubmittedItems.length === 0 && (
+            <li>
+              <p className='px-6 py-3'>尚無歷史碎片</p>
+            </li>
+          )}
+          {unsubmittedItems.map((row) => (
+            <li key={row.id}>
+              <ItemCard id={row.id} title={row.title} />
+            </li>
+          ))}
+        </ul>
+        <p className='text-ckpc-brown text-lg pt-4'>已提交的歷史碎片:</p>
+        <ul className='flex flex-col gap-1'>
+          {submittedItems.length === 0 && (
+            <li>
+              <p className='px-6 py-3'>尚無歷史碎片</p>
+            </li>
+          )}
+          {submittedItems.map((row) => (
+            <li key={row.id}>
+              <ItemCard id={row.id} title={row.title} />
+            </li>
+          ))}
+        </ul>
+        <div className='flex flex-row gap-2 pt-8'>
+          <Link
+            href='?addingItem=y'
+            className='flex-grow text-center bg-ckpc-blue-light rounded-lg px-6 py-3 transition-colors hover:bg-ckpc-blue-verylight duration-100'
+          >
+            新增歷史碎片
+          </Link>
+          <Link
+            href='?submittingItem=y'
+            className='flex-grow text-center bg-ckpc-blue-light rounded-lg px-6 py-3 transition-colors hover:bg-ckpc-blue-verylight duration-100'
+          >
+            提交歷史碎片
+          </Link>
+        </div>
+      </div>
+    </>
   )
 }

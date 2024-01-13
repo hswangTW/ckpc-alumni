@@ -8,9 +8,6 @@ const rl = readline.createInterface({
   output: process.stdout
 });
 
-const tableName = 'ckpc31_items';
-const rootDir = process.cwd();
-
 async function main() {
   // Get the file path
   let filepath;
@@ -33,29 +30,25 @@ async function main() {
 
   // SQL
   await sql`
-    CREATE TABLE IF NOT EXISTS ckpc31_items (
-      id TEXT NOT NULL PRIMARY KEY,
-      title TEXT NOT NULL,
-      description TEXT NOT NULL,
-      academic_score INT NOT NULL,
-      social_score INT NOT NULL,
-      admin_score INT NOT NULL
+    CREATE TABLE IF NOT EXISTS ckpc31_stories (
+      id INT PRIMARY KEY,
+      content TEXT NOT NULL,
+      hidden BOOLEAN NOT NULL
     );
   `;
 
   for (const item of json) {
-    const { id, title, description, academic_score, social_score, admin_score } = item;
+    const { id, content, hidden } = item;
     await sql`
-      INSERT INTO ckpc31_items (id, title, description, academic_score, social_score, admin_score)
-      VALUES (${id}, ${title}, ${description}, ${academic_score}, ${social_score}, ${admin_score})
+      INSERT INTO ckpc31_stories (id, content, hidden)
+      VALUES (${id}, ${content}, ${hidden})
       ON CONFLICT (id)
       DO UPDATE
-      SET id = EXCLUDED.id, title = EXCLUDED.title, description = EXCLUDED.description,
-          academic_score = EXCLUDED.academic_score, social_score = EXCLUDED.social_score, admin_score = EXCLUDED.admin_score
+      SET id = EXCLUDED.id, content = EXCLUDED.content, hidden = EXCLUDED.hidden
     `;
   }
 
-  console.log('\nItems added/updated.');
+  console.log('\Stories updated.');
 }
 
 await main();

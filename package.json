@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "add-item": "dotenv -e .env.development.local -- node scripts/add-item-to-database.mjs",
-    "add-items": "dotenv -e .env.development.local -- node scripts/add-items-with-json.mjs scripts/items.json"
+    "add-items": "dotenv -e .env.development.local -- node scripts/add-items-with-json.mjs scripts/items.json",
+    "update-stories": "dotenv -e .env.development.local -- node scripts/update-stories.mjs scripts/stories.json"
   },
   "dependencies": {
     "@vercel/postgres": "^0.5.1",

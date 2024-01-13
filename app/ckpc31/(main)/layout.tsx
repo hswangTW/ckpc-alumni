@@ -1,11 +1,9 @@
 import type { Metadata } from 'next'
 
-import Link from 'next/link'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import UserInfo from '../components/user-info'
 import NavBar from '../components/nav-bar'
-import AddItemModal from '../components/add-item-modal'
 
 export const metadata: Metadata = {
   title: 'CKPC 31st Anniversary',
@@ -20,7 +18,6 @@ export default async function Layout({
   const session = await getServerSession(authOptions);
   return (
     <div className={`flex flex-col`}>
-      <AddItemModal />
       <div className='flex flex-col p-8 gap-4 bg-ckpc-buff'>
         <div className='pb-2'>
           <h1 className='flex text-4xl justify-left'>建物 31 社慶 RPG</h1>
@@ -31,14 +28,6 @@ export default async function Layout({
       <NavBar />
       <div className='flex flex-col p-8 gap-4 bg-ckpc-buff-verylight'>
         {children}
-        <div className='flex flex-row gap-2 pt-8'>
-          <Link
-            href='?addingItem=y'
-            className='flex-grow text-center bg-ckpc-blue-light rounded-lg px-6 py-3 transition-colors hover:bg-ckpc-blue-verylight duration-100'
-          >
-            新增歷史碎片
-          </Link>
-        </div>
       </div>
     </div>
   )

@@ -19,16 +19,11 @@ export async function POST(request: Request) {
   if (!itemId) {
     return new Response('Item ID not found', { status: 400 });
   }
-
   try {
     const result = await sql`
-      INSERT INTO ckpc31_inventory (item_id, owner_id, created_at, submitted)
-      VALUES (
-        (SELECT id FROM ckpc31_items WHERE id = ${itemId}),
-        (SELECT id FROM users WHERE id = ${userId}),
-        NOW(),
-        false
-      );
+      UPDATE ckpc31_inventory
+      SET submitted = true
+      WHERE owner_id = ${userId} AND item_id = ${itemId};
     `;
 
     if (result.rowCount === 0) {
@@ -37,6 +32,6 @@ export async function POST(request: Request) {
       return new Response('OK', { status: 200 });
     }
   } catch (error) {
-    return new Response('SQL failed. Probably the item is already added.', { status: 400 });
+    return new Response('SQL failed.', { status: 400 });
   }
 }

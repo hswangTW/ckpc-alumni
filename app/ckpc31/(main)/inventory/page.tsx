@@ -7,6 +7,8 @@ import { unstable_noStore as noStore } from 'next/cache';
 import AddItemModal from '@/app/ckpc31/components/add-item-modal';
 import SubmitItemModal from '@/app/ckpc31/components/submit-item-modal';
 
+const maxSubmittedItems = 2;
+
 function ItemCard({ id, title }: { id: string, title: string }) {
   return (
     <Link
@@ -20,13 +22,8 @@ function ItemCard({ id, title }: { id: string, title: string }) {
 
 export const dynamic = 'force-dynamic';
 
-export default async function Home() {
+async function fetchItems(userId: string) {
   noStore();
-
-  const session = await getServerSession(authOptions);
-  if (!session || !session.user) {
-    return <p>請先登入</p>;
-  }
 
   const data = await sql`
     SELECT ckpc31_inventory.item_id AS id,
@@ -35,16 +32,30 @@ export default async function Home() {
     FROM ckpc31_inventory JOIN ckpc31_items
     ON
       ckpc31_inventory.item_id = ckpc31_items.id AND
-      ckpc31_inventory.owner_id = ${session.user.id};
+      ckpc31_inventory.owner_id = ${userId};
   ` as { rows: { id: string, submitted: boolean, title: string }[] };
 
-  const submittedItems = data.rows.filter((row) => row.submitted);
-  const unsubmittedItems = data.rows.filter((row) => !row.submitted);
+  return data.rows;
+}
+
+export default async function Home() {
+  noStore();
+
+  const session = await getServerSession(authOptions);
+  if (!session || !session.user) {
+    return <p>請先登入</p>;
+  }
+
+  const items = await fetchItems(session.user.id);
+
+  const submittedItems = items.filter((item) => item.submitted);
+  const unsubmittedItems = items.filter((item) => !item.submitted);
+  const quota = Math.max(0, maxSubmittedItems - submittedItems.length);
       
   return (
     <>
       <AddItemModal />
-      <SubmitItemModal items={unsubmittedItems} />
+      <SubmitItemModal items={unsubmittedItems} quota={quota} />
       <div className='flex flex-col gap-2'>
         <p className='text-ckpc-brown text-xs pb-2'>若歷史碎片更新不及時，請重新整理頁面</p>
         <p className='text-ckpc-brown text-lg'>尚未提交的歷史碎片:</p>

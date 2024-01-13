@@ -2,6 +2,7 @@
 
 import { useRouter, useSearchParams, usePathname } from 'next/navigation'
 import React, { useState, useRef, useEffect, FormEvent } from 'react'
+import { unstable_noStore as noStore } from 'next/cache';
 import Image from 'next/image';
 
 type Item = {
@@ -12,9 +13,12 @@ type Item = {
 
 type SubmitItemModalProps = {
   items: Item[],
+  quota: number,
 }
 
-export default async function SubmitItemModal({ items }: SubmitItemModalProps) {
+export default function SubmitItemModal({ items, quota }: SubmitItemModalProps) {
+  noStore();
+
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -23,11 +27,16 @@ export default async function SubmitItemModal({ items }: SubmitItemModalProps) {
   const submitting = searchParams.get('submittingItem');
 
   useEffect(() => {
+    router.refresh();
+  }, []);
+
+  useEffect(() => {
     if (submitting === 'y') {
       dialogRef.current?.showModal();
     } else {
       dialogRef.current?.close();
     }
+    router.refresh();
   }, [submitting]);
 
   const handleClose = () => {
@@ -63,34 +72,38 @@ export default async function SubmitItemModal({ items }: SubmitItemModalProps) {
             />
           </button>
           <div className='flex flex-col py-3'>
-            <form onSubmit={handleSubmit}>
-              <label htmlFor='item-id'>請選擇要提交的歷史碎片（注意此動作無法復原）</label>
-              <div className='flex flex-row gap-2'>
-                <select
-                  className='flex-grow rounded-md border border-gray-300'
-                  name='item-id'
-                >
-                  <option value=''>請選擇</option>
-                  {
-                    items.map((item) => (
-                      <option value={item.id}>{item.title}</option>
-                    ))
-                  }
-                </select>
-                <button
-                  className='flex flex-row px-4 py-2 gap-2 items-center min-w-fit bg-ckpc-blue-light rounded-lg transition-colors hover:bg-ckpc-blue-verylight duration-100'
-                  type='submit'
-                >
-                  <Image
-                    src='/icons/check.svg'
-                    width={16}
-                    height={16}
-                    alt='送出'
-                  />
-                  送出
-                </button>
-              </div>
-            </form>
+            {quota === 0 ? (
+              <p>你已經不能再提交更多碎片了。</p>
+            ) : (
+              <form onSubmit={handleSubmit}>
+                <label htmlFor='item-id'>請選擇要提交的歷史碎片（警告：你還可以提交 {quota} 個碎片，碎片一旦提交便無法反悔）</label>
+                <div className='flex flex-row gap-2'>
+                  <select
+                    className='flex-grow rounded-md border border-gray-300'
+                    name='item-id'
+                  >
+                    <option value=''>請選擇</option>
+                    {
+                      items.map((item) => (
+                        <option key={item.id} value={item.id}>{item.title}</option>
+                      ))
+                    }
+                  </select>
+                  <button
+                    className='flex flex-row px-4 py-2 gap-2 items-center min-w-fit bg-ckpc-blue-light rounded-lg transition-colors hover:bg-ckpc-blue-verylight duration-100'
+                    type='submit'
+                  >
+                    <Image
+                      src='/icons/check.svg'
+                      width={16}
+                      height={16}
+                      alt='送出'
+                    />
+                    送出
+                  </button>
+                </div>
+              </form>
+            )}
           </div>
         </div>
       </dialog>

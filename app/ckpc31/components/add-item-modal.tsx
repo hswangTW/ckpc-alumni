@@ -31,7 +31,6 @@ export default function AddItemModal() {
       { method: 'POST' }
     );
     if (!respose.ok) {
-      alert(`新增歷史碎片失敗: ${respose.status} ${respose.statusText} (${await respose.text()})`);
       return;
     }
     router.push(`/ckpc31/items/${itemId}`);

@@ -14,5 +14,141 @@
     "academic_score": 2,
     "social_score": -2,
     "admin_score": -1
+  },
+  {
+    "id": "no_poker_bitch",
+    "title": "誰會在下鄉的時候打牌",
+    "description": "下鄉時拒絕與友社打牌，利用休息時間自組讀書會。雖然友社認為我們是怪人，但備課效果大好。",
+    "academic_score": 2,
+    "social_score": -1,
+    "admin_score": 0
+  },
+  {
+    "id": "hunger_game",
+    "title": "飢餓三十",
+    "description": "下鄉時負責人訂的便當太小又禁止大家出去買零食，餓到無力進行活動。但是友社母愛爆發，使我們與友社感情急速升溫。",
+    "academic_score": 0,
+    "social_score": 2,
+    "admin_score": 0
+  },
+  {
+    "id": "we_are_painter",
+    "title": "全能社辦改造王",
+    "description": "把社辦漆成漂亮的顏色，大家來社辦的意願大增",
+    "academic_score": 0,
+    "social_score": 1,
+    "admin_score": 1
+  },
+  {
+    "id": "pain_painter",
+    "title": "漆漆漆刷起來",
+    "description": "油漆社辦施工進度緩慢，導致社辦荒廢了整個暑假",
+    "academic_score": 0,
+    "social_score": -1,
+    "admin_score": -1
+  },
+  {
+    "id": "literally_drained",
+    "title": "快住手，我已經",
+    "description": "邀請中自、景自、北科一起合出一個寒訓表演，在強大的公關技巧下順利舉辦成功，從此建物制霸UCS成為傳說。但應付高中生使得情緒壓力太大，大家紛紛被榨乾，從此無力做其它事情。",
+    "academic_score": -3,
+    "social_score": 3,
+    "admin_score": -2
+  },
+  {
+    "id": "winwinwinwin",
+    "title": "四贏的意思是建物贏四次",
+    "description": "邀請中自、景自、北科一起合辦四社聯課，在強大的公關技巧下順利舉辦成功，從此建物成為大家的人氣王，偶爾她們甚至會來幫我們打掃。",
+    "academic_score": 1,
+    "social_score": 1,
+    "admin_score": 1
+  },
+  {
+    "id": "autumn_leaves",
+    "title": "不是很秋",
+    "description": "舉辦秋遊時因為女醫負責人太雷，建物秋遊負責人爆氣開噴，使得女醫幹部集體封鎖建物，下一屆沒有秋遊。",
+    "academic_score": 0,
+    "social_score": -3,
+    "admin_score": 1
+  },
+  {
+    "id": "rm_rf",
+    "title": "大破大立",
+    "description": "教學組做實驗的時候弄壞教學組傳承物–大輪子，社辦從此多出許多空位。",
+    "academic_score": -1,
+    "social_score": 0,
+    "admin_score": 1
+  },
+  {
+    "id": "karate_master",
+    "title": "空手道大師",
+    "description": "學弟被中自學妹甩了後爆氣打爛中自櫃。後來因為無顏面對學長姐，從此轉至幕後專心備課。",
+    "academic_score": 1,
+    "social_score": -1,
+    "admin_score": 0
+  },
+  {
+    "id": "lost_pig",
+    "title": "塞翁失豬",
+    "description": "中自送我們的小豬玩偶被建科偷走。雖然中自有點生氣，但社辦從此少了一股莫名的異味。",
+    "academic_score": 0,
+    "social_score": -1,
+    "admin_score": 1
+  },
+  {
+    "id": "broken_katana",
+    "title": "我的公關之力啊啊啊",
+    "description": "公活組的傳承物–武士刀斷掉，從此建物少了一個可以耍中二的道具。",
+    "academic_score": 0,
+    "social_score": 1,
+    "admin_score": 0
+  },
+  {
+    "id": "just_quantum",
+    "title": "遇事不決量子力學",
+    "description": "友社幹部表示「懂量子力學的人好帥」，導致建物幹部爭相備課。",
+    "academic_score": 2,
+    "social_score": 1,
+    "admin_score": -1
+  },
+  {
+    "id": "physics_study",
+    "title": "閉門思過",
+    "description": "公活組某幹部為了回女醫朋友訊息忘了回中自朋友的訊息長達12小時。為了懲罰他，調他進入教學組。",
+    "academic_score": 1,
+    "social_score": -2,
+    "admin_score": 0
+  },
+  {
+    "id": "yes_calculus",
+    "title": "從以前就最愛微積分了",
+    "description": "教學組幹部熱烈邀請中自幹部來聽學長教的微積分社課，因為女生的出現，出席學弟數加倍。",
+    "academic_score": 1,
+    "social_score": -1,
+    "admin_score": 0
+  },
+  {
+    "id": "yaranaika",
+    "title": "男生就該喜歡陽剛的東西",
+    "description": "跨年前太晚約中自和景自，最後只能夠跟成自跨年。",
+    "academic_score": 0,
+    "social_score": 1,
+    "admin_score": 0
+  },
+  {
+    "id": "time_management",
+    "title": "你們都是我的翅膀",
+    "description": "跨年前一次同時約中自和景自跨年，被質疑腳踏兩條船。幹部們事後深刻反省，提前剃頭準備學測。",
+    "academic_score": 1,
+    "social_score": -2,
+    "admin_score": 0
+  },
+  {
+    "id": "omg_its_me",
+    "title": "天啊這根本就是我",
+    "description": "沉溺於跟建科和附自打牌，發出肥宅呵呵笑被北科和附自女生嫌棄。",
+    "academic_score": 0,
+    "social_score": 1,
+    "admin_score": 0
   }
 ]

@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-const linkClassNames = 'flex-grow text-center rounded-t-2xl w-4 py-2';
+const linkClassNames = 'flex-grow text-center rounded-t-2xl w-4 py-2 transition-colors hover:bg-white duration-100';
 
 function NavLink({ href, currentPath, children }: { href: string, currentPath: string, children: React.ReactNode }) {
   return (

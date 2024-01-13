@@ -48,7 +48,7 @@ async function main() {
   const admin_score = await getInput('What\'s the administrative score for this item?\n> ');
 
   // Copy the file
-  const newpath = `${rootDir}/public/images/ckpc31_items/${id}.${extension}`;
+  const newpath = `${rootDir}/public/images/ckpc31/items/${id}.${extension}`;
 
   try {
     fs.copyFileSync(filepath, newpath);
@@ -68,7 +68,7 @@ async function main() {
   // SQL
   await sql`
     CREATE TABLE IF NOT EXISTS ckpc31_items (
-      id VARCHAR(20) NOT NULL PRIMARY KEY,
+      id TEXT NOT NULL PRIMARY KEY,
       title TEXT NOT NULL,
       description TEXT NOT NULL,
       academic_score INT NOT NULL,

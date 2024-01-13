@@ -24,7 +24,10 @@ const config: Config = {
           verylight: '#C8F4FC',
           light: '#ADD3DA',
         },
-        'ckpc-green': '#80B192',
+        'ckpc-green': {
+          DEFAULT: '#80B192',
+          light: '#97AFAE',
+        }
       },
     },
   },

@@ -8,7 +8,7 @@ type DownloadButtonProps = {
 
 export default function DownloadButton({ text, className, itemId }: DownloadButtonProps) {
   const handleClick = async () => {
-    const response = await fetch(`/api/ckpc31_item?id=${itemId}`);
+    const response = await fetch(`/api/ckpc31/item-dl?id=${itemId}`);
     if (response.status !== 200) {
       console.error('Failed to download image:', response.status, response.statusText);
       return;
